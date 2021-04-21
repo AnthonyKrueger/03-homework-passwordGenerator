@@ -101,23 +101,37 @@ function getRandomItem(arr) {
 function getUserChoices() {
   // Ask length - Assign variable
   var length = prompt("How many characters in your password? Must be between 8 and 128");
-  // Ask for UpperCase - Assign variable
-  var useUpperCase = confirm("Use Upper Case Characters?");
-  // Ask for LowerCase - Assign variable
-  var useLowerCase = confirm("Use Lower Case Characters?");
-  // Ask for Numbers - Assign variable
-  var useNumbers = confirm("Use Numbers?");
-  // Ask for SpecialChars - Assign variable
-  var useSpecialChars = confirm("Use Special Characters?");
-  // Create object to store choices - return it
-  var choices = {
-    length:length,
-    useUpperCase:useUpperCase,
-    useLowerCase:useLowerCase,
-    useNumbers:useNumbers,
-    useSpecialChars:useSpecialChars
+  // Need to check for min and max length or non-number values
+  if(length > 128 || length < 8){
+    alert("Password must be between 8 and 128 characters.")
+    return false;
   }
-  return choices;
+  else {
+    // Ask for UpperCase - Assign variable
+    var useUpperCase = confirm("Use Upper Case Characters?");
+    // Ask for LowerCase - Assign variable
+    var useLowerCase = confirm("Use Lower Case Characters?");
+    // Ask for Numbers - Assign variable
+    var useNumbers = confirm("Use Numbers?");
+    // Ask for SpecialChars - Assign variable
+    var useSpecialChars = confirm("Use Special Characters?");
+    // Need to check that at least one type is used
+    if(useUpperCase === false && useLowerCase === false && useNumbers === false && useSpecialChars === false) {
+      alert("You must pick at least one character type.")
+      return false;
+    }
+    else {
+      // Create object to store choices - return it
+      var choices = {
+        length:length,
+        useUpperCase:useUpperCase,
+        useLowerCase:useLowerCase,
+        useNumbers:useNumbers,
+        useSpecialChars:useSpecialChars
+      }
+      return choices;
+    }
+  }
 }
 // Create function to construct the password using user options
 function generatePassword() {
@@ -129,6 +143,10 @@ function generatePassword() {
   var possibleOptions = [];
   // Array for definite options
   var definiteOptions = [];
+  // If no choices picked, return "retry"
+  if(choices === false){
+    return "Retry"
+  }
   // Push possible characters to the possible options array based on 
   // user choices - push one of each to definiteOptions
   if(choices.useUpperCase) {
@@ -155,7 +173,7 @@ function generatePassword() {
   for(var i = 0; i < definiteOptions.length; i++) {
     password.push(definiteOptions[i])
   }
-  // Return result
+  // Return result as a string
   return password.join("");
 }
 // Assignment Code

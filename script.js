@@ -91,6 +91,9 @@ var specialChars = [
   "\\",
   "/"
 ];
+
+var passGenerated = false;
+
 // Create function to pick random item from array
 function getRandomItem(arr) {
   var randNum = Math.floor(Math.random() * arr.length);
@@ -131,6 +134,13 @@ function getUserChoices() {
       }
       return choices;
     }
+  }
+}
+function copyPassword() {
+  if(passGenerated = true){
+    var password = document.querySelector("#password")
+    password.select();
+    document.execCommand("copy");
   }
 }
 // Create function to construct the password using user options
@@ -178,9 +188,11 @@ function generatePassword() {
 }
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
+var copyBtn = document.querySelector("#copy");
 
 // Write password to the #password input
 function writePassword() {
+  passGenerated = true;
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
@@ -190,3 +202,4 @@ function writePassword() {
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
+copyBtn.addEventListener("click", copyPassword);
